@@ -1,0 +1,22 @@
+#Do not include a sh-bang (#!/bin/bash) in this script.
+#Do not write code outside of this function body
+#Scotty Bauer 260789116
+function fname()
+{
+#local variable to be used to see if the username exists in the pinky	
+local string=$(pinky | grep "$1")
+#checks if an argument exists, if not it sets FNAME to error and returns with value 1
+	if [ -z "$1" ]; then
+	export FNAME=ERROR; 
+	return 1
+
+
+#if the local variable is empty then the grep returned nothing	
+	elif [ -z "$string" ]; then
+		export FNAME=NOTFOUND
+		return 0
+	else 
+#using awk allows me to print the 2nd word of the pinky/grep output, which is the first name of the user
+	export FNAME=$(pinky | grep "$1" | awk '{print $2}')
+	fi
+}
